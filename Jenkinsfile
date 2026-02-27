@@ -3,7 +3,7 @@ pipeline {
         label 'nod1'
     }
     parameters {
-        string defaultValue: 'mhd', name: 'LASTNAME'
+        choice choices: ['dev', 'prod', 'booba'], name: 'select_env'
     }
 
     environment{
@@ -17,8 +17,8 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'mvn clean package'
-                echo "hello $NAME ${params.LASTNAME}"
+                sh 'mvn clean package -Dskiptests=true'
+                
             }
             
         }
@@ -28,24 +28,47 @@ pipeline {
         parallel {
             stage('testA')
             {
+                agent{label "nod1"}
               steps{
                 echo "this is test A"
+                sh "mvn test"
               }
                 
             }
             stage('testB')
             {
+                agent{label "nod1"}
                 steps{
                     echo "this is test B"
+                    sh "mvn test"
                 }
                 
             }
         }
         post {
                 success {
-                    archiveArtifacts artifacts: '**/target/*.war'
+                    dir("webapp/target/")
+                    {
+                        stash name: "maven-build", includes: ".war*"
+                    }
                 }
             }
+    }
+    stage('deploye dev')
+    {
+        when { expression {params.select_env == 'dev'}
+            beforeAgent true
+            }
+        steps{
+            dir ("/var/www/html"){
+                unstash "maven-build"
+            }
+            sh """
+            cd /var/www/html/
+            jar -xvf webapp.war
+            """
+            
+        }
     }
     }
 }
