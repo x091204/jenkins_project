@@ -23,7 +23,8 @@ pipeline {
             
         }
     }
-    stages {
+    stages('test')
+    {
         parallel {
             stage('testA')
             {
