@@ -28,7 +28,7 @@ pipeline {
         parallel {
             stage('testA')
             {
-                agent{label "nod1"}
+                agent{label "nod2"}
               steps{
                 echo "this is test A"
                 sh "mvn test"
@@ -37,7 +37,7 @@ pipeline {
             }
             stage('testB')
             {
-                agent{label "nod1"}
+                agent{label "nod2"}
                 steps{
                     echo "this is test B"
                     sh "mvn test"
