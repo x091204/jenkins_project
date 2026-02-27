@@ -22,7 +22,7 @@ pipeline {
             }
             
         }
-    }
+    
     stage('test')
     {
         parallel {
@@ -46,5 +46,6 @@ pipeline {
                     archiveArtifacts artifacts: '**/target/*.war'
                 }
             }
+    }
     }
 }
