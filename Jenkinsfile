@@ -37,7 +37,7 @@ pipeline {
                 steps{
                     echo "this is test B"
                 }
-                "
+                
             }
         }
         post {
