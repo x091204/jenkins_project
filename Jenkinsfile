@@ -78,7 +78,7 @@ pipeline {
     {
         when { expression {params.select_env == 'prod'}
             beforeAgent true
-            agent{label 'nod2'}
+            agent { label 'nod2' }
             }
         steps{
             dir ("/var/www/html"){
