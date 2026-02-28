@@ -77,7 +77,7 @@ pipeline {
     stage('deploy_prod')
     {
         when { expression {params.select_env == 'prod'}
-            beforeAgent true
+            beforeAgent true}
             agent { label 'nod2' }
             }
         steps{
@@ -92,5 +92,5 @@ pipeline {
     }
     }
 
-    }
+    
 }
