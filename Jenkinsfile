@@ -79,7 +79,7 @@ pipeline {
         when { expression {params.select_env == 'prod'}
             beforeAgent true}
             agent { label 'nod2' }
-            }
+            
         steps{
             dir ("/var/www/html"){
                 unstash "maven-build"
@@ -88,7 +88,8 @@ pipeline {
             cd /var/www/html/
             jar -xvf webapp.war
             """
-        
+
+        } 
     }
     }
 
